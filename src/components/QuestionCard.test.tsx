@@ -10,19 +10,17 @@ const mockQuestion: Question = {
 
 describe("QuestionCard", () => {
   it("質問文が表示される", () => {
-    render(<QuestionCard question={mockQuestion} questionNumber={1} />);
+    render(<QuestionCard question={mockQuestion} />);
     expect(screen.getByText("テスト用の質問文です")).toBeInTheDocument();
   });
 
-  it("質問番号が Q.{n} 形式で表示される", () => {
-    render(<QuestionCard question={mockQuestion} questionNumber={3} />);
-    expect(screen.getByText("Q.3")).toBeInTheDocument();
+  it("エラーなくレンダリングされる", () => {
+    const { container } = render(<QuestionCard question={mockQuestion} />);
+    expect(container).toBeTruthy();
   });
 
-  it("エラーなくレンダリングされる", () => {
-    const { container } = render(
-      <QuestionCard question={mockQuestion} questionNumber={1} />
-    );
-    expect(container).toBeTruthy();
+  it("isAnimating=true のときもエラーなくレンダリングされる", () => {
+    render(<QuestionCard question={mockQuestion} isAnimating={true} />);
+    expect(screen.getByText("テスト用の質問文です")).toBeInTheDocument();
   });
 });

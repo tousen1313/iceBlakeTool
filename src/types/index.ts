@@ -26,8 +26,8 @@ export interface Question {
  */
 export interface IceBreakState {
   currentQuestion: Question;
-  history: Question[];
-  questionNumber: number;
+  isStarted: boolean;
+  isAnimating: boolean;
 }
 
 /**
@@ -43,14 +43,11 @@ export interface UseIceBreakReturn extends IceBreakState {
 
 export interface QuestionCardProps {
   question: Question;
-  questionNumber: number;
+  isAnimating?: boolean;
 }
 
 export interface NextButtonProps {
   onClick: () => void;
   disabled?: boolean;
-}
-
-export interface HistoryListProps {
-  history: Question[];
+  label: string;
 }

@@ -2,8 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+@keyframes drumroll {
+  0%, 100% { opacity: 0.8; transform: translateY(0px); }
+  50% { opacity: 0.5; transform: translateY(-2px); }
+}
+
+.animate-drumroll {
+  animation: drumroll 0.1s linear infinite;
+}
+
 :root {
-  --background: #fdf4ff;
+  --background: #f0f8ff;
   --foreground: #1a1a2e;
 }
 

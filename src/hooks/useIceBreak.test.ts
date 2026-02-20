@@ -3,63 +3,66 @@ import { useIceBreak } from "./useIceBreak";
 import { questions } from "@/data/questions";
 
 describe("useIceBreak", () => {
-  it("初期化時に questions の中の1つが currentQuestion に設定される", () => {
+  beforeEach(() => {
+    jest.useFakeTimers();
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
+  it("初期化時に isStarted は false である", () => {
+    const { result } = renderHook(() => useIceBreak());
+    expect(result.current.isStarted).toBe(false);
+  });
+
+  it("初期化時に isAnimating は false である", () => {
+    const { result } = renderHook(() => useIceBreak());
+    expect(result.current.isAnimating).toBe(false);
+  });
+
+  it("初期化時に currentQuestion は questions の中の1つである", () => {
     const { result } = renderHook(() => useIceBreak());
     const ids = questions.map((q) => q.id);
     expect(ids).toContain(result.current.currentQuestion.id);
   });
 
-  it("初期化時に history は空配列である", () => {
+  it("nextQuestion を呼ぶと isStarted が true になる", () => {
     const { result } = renderHook(() => useIceBreak());
-    expect(result.current.history).toHaveLength(0);
-  });
-
-  it("初期化時に questionNumber は 1 である", () => {
-    const { result } = renderHook(() => useIceBreak());
-    expect(result.current.questionNumber).toBe(1);
-  });
-
-  it("nextQuestion を呼ぶと history に前の質問が追加される", () => {
-    const { result } = renderHook(() => useIceBreak());
-    const first = result.current.currentQuestion;
-
     act(() => {
       result.current.nextQuestion();
     });
-
-    expect(result.current.history).toHaveLength(1);
-    expect(result.current.history[0]).toEqual(first);
+    expect(result.current.isStarted).toBe(true);
   });
 
-  it("nextQuestion を呼ぶと questionNumber が +1 される", () => {
+  it("nextQuestion を呼ぶと isAnimating が true になる", () => {
     const { result } = renderHook(() => useIceBreak());
-
     act(() => {
       result.current.nextQuestion();
     });
-
-    expect(result.current.questionNumber).toBe(2);
+    expect(result.current.isAnimating).toBe(true);
   });
 
-  it("nextQuestion を複数回呼ぶと history が積み上がる", () => {
+  it("アニメーション完了後に isAnimating が false になる", () => {
     const { result } = renderHook(() => useIceBreak());
-
-    act(() => { result.current.nextQuestion(); });
-    act(() => { result.current.nextQuestion(); });
-    act(() => { result.current.nextQuestion(); });
-
-    expect(result.current.history).toHaveLength(3);
-    expect(result.current.questionNumber).toBe(4);
+    act(() => {
+      result.current.nextQuestion();
+    });
+    act(() => {
+      jest.runAllTimers();
+    });
+    expect(result.current.isAnimating).toBe(false);
   });
 
-  it("nextQuestion 後の currentQuestion は questions の中の1つである", () => {
+  it("アニメーション完了後の currentQuestion は questions の中の1つである", () => {
     const { result } = renderHook(() => useIceBreak());
+    act(() => {
+      result.current.nextQuestion();
+    });
+    act(() => {
+      jest.runAllTimers();
+    });
     const ids = questions.map((q) => q.id);
-
-    act(() => {
-      result.current.nextQuestion();
-    });
-
     expect(ids).toContain(result.current.currentQuestion.id);
   });
 });

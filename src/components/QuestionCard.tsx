@@ -1,14 +1,16 @@
 import { QuestionCardProps } from "@/types";
 
-export function QuestionCard({ question, questionNumber }: QuestionCardProps) {
+export function QuestionCard({ question, isAnimating = false }: QuestionCardProps) {
   return (
-    <div className="max-w-2xl mx-auto bg-white rounded-3xl shadow-2xl p-6 md:p-8 border-4 border-purple-300">
-      <p className="text-sm text-gray-400 mb-4 font-bold tracking-widest">
-        Q.{questionNumber}
-      </p>
+    <div
+      className={`max-w-2xl mx-auto bg-white rounded-3xl shadow-2xl p-8 md:p-12 border-4 flex items-center justify-center transition-colors duration-75
+        ${isAnimating ? "h-[180px] overflow-hidden" : "min-h-[180px]"}
+        ${isAnimating ? "border-sky-200" : "border-purple-300"}`}
+    >
       <p
-        className="text-lg md:text-xl lg:text-2xl font-bold text-gray-800 text-center leading-relaxed"
-        aria-live="polite"
+        className={`text-xl md:text-2xl lg:text-3xl font-bold text-center leading-loose transition-colors duration-75
+          ${isAnimating ? "text-sky-400 animate-drumroll" : "text-gray-800"}`}
+        aria-live={isAnimating ? "off" : "polite"}
       >
         {question.text}
       </p>

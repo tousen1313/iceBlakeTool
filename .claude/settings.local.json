@@ -11,7 +11,10 @@
       "Bash(grep:*)",
       "Bash(/Users/yamada/source/iceBlakeTool/src/app/page.tsx:*)",
       "Bash(/Users/yamada/source/iceBlakeTool/.gitignore:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(npm show:*)",
+      "Bash(node -e:*)"
     ]
   }
 }
