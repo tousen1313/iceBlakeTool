@@ -3,6 +3,7 @@
 import { useIceBreak } from "@/hooks/useIceBreak";
 import { QuestionCard } from "@/components/QuestionCard";
 import { NextButton } from "@/components/NextButton";
+import { TodayFact } from "@/components/TodayFact";
 
 export default function Home() {
   const { currentQuestion, isStarted, isAnimating, nextQuestion } =
@@ -10,9 +11,12 @@ export default function Home() {
 
   return (
     <main
-      className="min-h-screen bg-[#f0f8ff] flex flex-col items-center justify-center px-4 py-8"
+      className="relative min-h-screen bg-[#f0f8ff] flex flex-col items-center justify-center px-4 py-8"
       aria-label="アイスブレイクツール"
     >
+      <div className="fixed top-4 right-4">
+        <TodayFact />
+      </div>
       <h1 className="text-center text-7xl font-extrabold text-purple-600 mb-10 drop-shadow-sm">
         アイスブレイク
       </h1>
