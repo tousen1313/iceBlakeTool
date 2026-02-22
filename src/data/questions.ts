@@ -1,7 +1,7 @@
 import { Question } from "@/types";
 
 export const questions: Question[] = [
-  // ユーモア系 (humor)
+  // ユーモア系
   { id: 1, text: "会議を1つだけなくせるとしたら、何を消す？", category: "humor" },
   { id: 2, text: "AIに奪ってほしいタスク・絶対に奪われたくないタスクは？", category: "humor" },
   { id: 3, text: "リモート会議中に一番困った・焦った出来事は？", category: "humor" },
@@ -15,7 +15,7 @@ export const questions: Question[] = [
   { id: 11, text: "仕事中に一番集中できる・できない環境や条件は？", category: "humor" },
   { id: 12, text: "チームで「これがあったら最高」と思う謎の福利厚生は？", category: "humor" },
 
-  // 軽め・個人系 (light)
+  // 軽め・個人系
   { id: 13, text: "最近使ってみたツール・サービスで良かったものは？", category: "light" },
   { id: 14, text: "今一番気になっている技術やトレンドは？", category: "light" },
   { id: 15, text: "コーディング中に聴く音楽・BGMは？", category: "light" },
