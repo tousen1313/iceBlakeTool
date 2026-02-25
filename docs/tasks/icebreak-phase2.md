@@ -2,15 +2,15 @@
 
 ## フェーズ概要
 
-| 項目 | 内容 |
-|------|------|
-| レイヤー | ロジック層（カスタムフック）・UI層（コンポーネント・ページ） |
-| 対象タスク | TASK-0005 〜 TASK-0009 |
-| 推定工数 | 18時間 |
-| タスクタイプ | TDD（全タスク） |
-| 前提条件 | Phase 1（TASK-0001〜0004）完了済み |
-| 成果物 | 動作する全コンポーネント + メインページ（ローカルで受け入れ基準を満たす） |
-| マイルストーン | M2: 機能完成 |
+| 項目           | 内容                                                                      |
+| -------------- | ------------------------------------------------------------------------- |
+| レイヤー       | ロジック層（カスタムフック）・UI層（コンポーネント・ページ）              |
+| 対象タスク     | TASK-0005 〜 TASK-0009                                                    |
+| 推定工数       | 18時間                                                                    |
+| タスクタイプ   | TDD（全タスク）                                                           |
+| 前提条件       | Phase 1（TASK-0001〜0004）完了済み                                        |
+| 成果物         | 動作する全コンポーネント + メインページ（ローカルで受け入れ基準を満たす） |
+| マイルストーン | M2: 機能完成                                                              |
 
 ## 目標
 
@@ -39,7 +39,8 @@
 ```typescript
 // フックの骨格
 export function useIceBreak(): UseIceBreakReturn {
-  const [currentQuestion, setCurrentQuestion] = useState<Question>(/* 初期ランダム質問 */);
+  const [currentQuestion, setCurrentQuestion] =
+    useState<Question>(/* 初期ランダム質問 */);
   const [history, setHistory] = useState<Question[]>([]);
   const [questionNumber, setQuestionNumber] = useState<number>(1);
 
@@ -54,6 +55,7 @@ export function useIceBreak(): UseIceBreakReturn {
 ```
 
 **ロジック仕様**:
+
 - 初期化時: `questions` 配列からランダムに1問選択（`Math.random()`）
 - `nextQuestion()`: 現在の質問を `history` に追加後、新しいランダム質問を選択
 - 重複チェック: 不要（EDGE-101 — 重複許容）
@@ -63,12 +65,12 @@ export function useIceBreak(): UseIceBreakReturn {
 
 **単体テスト** (`src/hooks/useIceBreak.test.ts`):
 
-| テストケース | 内容 |
-|-------------|------|
-| 初期化テスト | フック初期化後に `currentQuestion` が `questions` の中の1つであること |
-| nextQuestion テスト | `nextQuestion()` 呼び出し後に `history` に前の質問が追加されること |
-| questionNumber テスト | `nextQuestion()` 呼び出しごとに `questionNumber` が +1 されること |
-| 重複テスト | 同じ質問が連続して出ても正常動作すること |
+| テストケース          | 内容                                                                  |
+| --------------------- | --------------------------------------------------------------------- |
+| 初期化テスト          | フック初期化後に `currentQuestion` が `questions` の中の1つであること |
+| nextQuestion テスト   | `nextQuestion()` 呼び出し後に `history` に前の質問が追加されること    |
+| questionNumber テスト | `nextQuestion()` 呼び出しごとに `questionNumber` が +1 されること     |
+| 重複テスト            | 同じ質問が連続して出ても正常動作すること                              |
 
 #### 統合テスト要件
 
@@ -109,6 +111,7 @@ export function useIceBreak(): UseIceBreakReturn {
 Props: `QuestionCardProps`（`question: Question` / `questionNumber: number`）
 
 **UI仕様**:
+
 - カード外観: 丸みのある白いカード、カラフルなシャドウ or ボーダー
 - 質問番号: `Q.{questionNumber}` の形式で表示（小さめ・グレー系）
 - 質問文: 大きなフォントサイズ（`text-2xl` 〜 `text-3xl`）、中央揃え
@@ -129,10 +132,10 @@ Props: `QuestionCardProps`（`question: Question` / `questionNumber: number`）
 
 **単体テスト** (`src/components/QuestionCard.test.tsx`):
 
-| テストケース | 内容 |
-|-------------|------|
-| 質問文表示テスト | `question.text` が画面に表示されること |
-| 質問番号表示テスト | `Q.{questionNumber}` 形式で番号が表示されること |
+| テストケース       | 内容                                             |
+| ------------------ | ------------------------------------------------ |
+| 質問文表示テスト   | `question.text` が画面に表示されること           |
+| 質問番号表示テスト | `Q.{questionNumber}` 形式で番号が表示されること  |
 | レンダリングテスト | コンポーネントがエラーなくレンダリングされること |
 
 #### UI/UX要件
@@ -177,6 +180,7 @@ Props: `QuestionCardProps`（`question: Question` / `questionNumber: number`）
 Props: `NextButtonProps`（`onClick: () => void` / `disabled?: boolean`）
 
 **UI仕様**:
+
 - ボタンサイズ: 大きめ（`px-12 py-5` 程度）
 - 色: カラフルなグラデーション（例: `from-pink-500 to-orange-400`）
 - 文字: 「🎲 次の質問へ！」（白文字・太字）
@@ -203,12 +207,12 @@ Props: `NextButtonProps`（`onClick: () => void` / `disabled?: boolean`）
 
 **単体テスト** (`src/components/NextButton.test.tsx`):
 
-| テストケース | 内容 |
-|-------------|------|
-| クリックテスト | ボタンクリックで `onClick` が呼ばれること |
-| 無効状態テスト | `disabled=true` 時にボタンがクリックできないこと |
-| レンダリングテスト | ボタンが正しくレンダリングされること |
-| キーボードテスト | Enter / Space キーで `onClick` が呼ばれること |
+| テストケース       | 内容                                             |
+| ------------------ | ------------------------------------------------ |
+| クリックテスト     | ボタンクリックで `onClick` が呼ばれること        |
+| 無効状態テスト     | `disabled=true` 時にボタンがクリックできないこと |
+| レンダリングテスト | ボタンが正しくレンダリングされること             |
+| キーボードテスト   | Enter / Space キーで `onClick` が呼ばれること    |
 
 #### UI/UX要件
 
@@ -252,6 +256,7 @@ Props: `NextButtonProps`（`onClick: () => void` / `disabled?: boolean`）
 Props: `HistoryListProps`（`history: Question[]`）
 
 **UI仕様**:
+
 - 表示条件: `history.length > 0` の場合のみ表示（REQ-202）
 - セクションタイトル: 「📋 これまでの質問」
 - リスト形式: 番号付きリスト（`1.` `2.` ...）
@@ -260,31 +265,38 @@ Props: `HistoryListProps`（`history: Question[]`）
 
 ```tsx
 // 例
-{history.length > 0 && (
-  <section aria-label="これまでの質問">
-    <h2 className="text-lg font-bold text-gray-600 mb-3">📋 これまでの質問</h2>
-    <ol className="space-y-2">
-      {history.map((q, index) => (
-        <li key={q.id} className="text-gray-600 text-sm bg-white/50 rounded-lg p-3">
-          {index + 1}. {q.text}
-        </li>
-      ))}
-    </ol>
-  </section>
-)}
+{
+  history.length > 0 && (
+    <section aria-label="これまでの質問">
+      <h2 className="text-lg font-bold text-gray-600 mb-3">
+        📋 これまでの質問
+      </h2>
+      <ol className="space-y-2">
+        {history.map((q, index) => (
+          <li
+            key={q.id}
+            className="text-gray-600 text-sm bg-white/50 rounded-lg p-3"
+          >
+            {index + 1}. {q.text}
+          </li>
+        ))}
+      </ol>
+    </section>
+  );
+}
 ```
 
 #### テスト要件
 
 **単体テスト** (`src/components/HistoryList.test.tsx`):
 
-| テストケース | 内容 |
-|-------------|------|
+| テストケース | 内容                                                   |
+| ------------ | ------------------------------------------------------ |
 | 非表示テスト | `history` が空の場合、コンポーネントが表示されないこと |
-| 表示テスト | `history` に1件以上ある場合、リストが表示されること |
-| 件数テスト | `history` の件数分のリストアイテムが表示されること |
-| 順序テスト | 最初の質問が1番目に表示されること |
-| 重複テスト | 同じ質問が複数回 history にあっても正常表示されること |
+| 表示テスト   | `history` に1件以上ある場合、リストが表示されること    |
+| 件数テスト   | `history` の件数分のリストアイテムが表示されること     |
+| 順序テスト   | 最初の質問が1番目に表示されること                      |
+| 重複テスト   | 同じ質問が複数回 history にあっても正常表示されること  |
 
 #### UI/UX要件
 
@@ -333,17 +345,21 @@ import { NextButton } from "@/components/NextButton";
 import { HistoryList } from "@/components/HistoryList";
 
 export default function Home() {
-  const { currentQuestion, history, questionNumber, nextQuestion } = useIceBreak();
+  const { currentQuestion, history, questionNumber, nextQuestion } =
+    useIceBreak();
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-purple-100 via-pink-50 to-orange-100 py-12 px-4">
       {/* ヘッダー */}
       <h1 className="text-center text-4xl font-extrabold text-purple-600 mb-8">
-        🎉 アイスブレイクタイム！
+        🎉 アイスブレイク！
       </h1>
 
       {/* 質問カード */}
-      <QuestionCard question={currentQuestion} questionNumber={questionNumber} />
+      <QuestionCard
+        question={currentQuestion}
+        questionNumber={questionNumber}
+      />
 
       {/* 次の質問ボタン */}
       <div className="flex justify-center mt-8">
@@ -360,6 +376,7 @@ export default function Home() {
 ```
 
 **レイアウト仕様**:
+
 - 全体背景: グラデーション（ポップ・カラフル）
 - 縦方向の並び順: ヘッダー → 質問カード → ボタン → 履歴
 - 中央揃え: 全コンテンツを水平中央に配置
@@ -368,12 +385,12 @@ export default function Home() {
 
 **統合テスト** (`src/app/page.test.tsx`):
 
-| テストケース | 内容 |
-|-------------|------|
-| 初期表示テスト | ページ表示時に質問が1件表示されること |
+| テストケース     | 内容                                                 |
+| ---------------- | ---------------------------------------------------- |
+| 初期表示テスト   | ページ表示時に質問が1件表示されること                |
 | ボタン動作テスト | 「次の質問へ！」ボタンクリックで質問が切り替わること |
-| 履歴追加テスト | ボタンクリック後に履歴が1件増えること |
-| 複数回操作テスト | ボタンを3回押した後、履歴が3件になること |
+| 履歴追加テスト   | ボタンクリック後に履歴が1件増えること                |
+| 複数回操作テスト | ボタンを3回押した後、履歴が3件になること             |
 
 #### UI/UX要件
 

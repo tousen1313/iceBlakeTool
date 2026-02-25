@@ -9,7 +9,7 @@ const notoSansJP = Noto_Sans_JP({
 });
 
 export const metadata: Metadata = {
-  title: "アイスブレイクタイム！",
+  title: "アイスブレイク！",
   description: "オンライン会議を盛り上げるアイスブレイクツール",
 };
 

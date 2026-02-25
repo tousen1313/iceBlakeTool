@@ -2,15 +2,15 @@
 
 ## フェーズ概要
 
-| 項目 | 内容 |
-|------|------|
-| レイヤー | 基盤・静的データ層 |
-| 対象タスク | TASK-0001 〜 TASK-0004 |
-| 推定工数 | 7時間 |
-| タスクタイプ | DIRECT（全タスク） |
-| 前提条件 | Node.js / npm がインストール済み |
-| 成果物 | 起動可能な Next.js プロジェクト + 型定義 + 質問データ + スタイル設定 |
-| マイルストーン | M1: 開発環境完成 |
+| 項目           | 内容                                                                 |
+| -------------- | -------------------------------------------------------------------- |
+| レイヤー       | 基盤・静的データ層                                                   |
+| 対象タスク     | TASK-0001 〜 TASK-0004                                               |
+| 推定工数       | 7時間                                                                |
+| タスクタイプ   | DIRECT（全タスク）                                                   |
+| 前提条件       | Node.js / npm がインストール済み                                     |
+| 成果物         | 起動可能な Next.js プロジェクト + 型定義 + 質問データ + スタイル設定 |
+| マイルストーン | M1: 開発環境完成                                                     |
 
 ## 目標
 
@@ -81,15 +81,15 @@ npx create-next-app@latest . \
 
 作成する型：
 
-| 型名 | 種別 | 説明 |
-|------|------|------|
-| `Question` | interface | 質問エンティティ（id / text / category） |
-| `QuestionCategory` | type | `"humor" \| "light"` |
-| `IceBreakState` | interface | アプリの状態（currentQuestion / history / questionNumber） |
-| `UseIceBreakReturn` | interface | useIceBreak フックの戻り値型 |
-| `QuestionCardProps` | interface | QuestionCard コンポーネントの Props |
-| `NextButtonProps` | interface | NextButton コンポーネントの Props |
-| `HistoryListProps` | interface | HistoryList コンポーネントの Props |
+| 型名                | 種別      | 説明                                                       |
+| ------------------- | --------- | ---------------------------------------------------------- |
+| `Question`          | interface | 質問エンティティ（id / text / category）                   |
+| `QuestionCategory`  | type      | `"humor" \| "light"`                                       |
+| `IceBreakState`     | interface | アプリの状態（currentQuestion / history / questionNumber） |
+| `UseIceBreakReturn` | interface | useIceBreak フックの戻り値型                               |
+| `QuestionCardProps` | interface | QuestionCard コンポーネントの Props                        |
+| `NextButtonProps`   | interface | NextButton コンポーネントの Props                          |
+| `HistoryListProps`  | interface | HistoryList コンポーネントの Props                         |
 
 #### 完了条件
 
@@ -124,7 +124,7 @@ npx create-next-app@latest . \
    - フォントサイズのベース設定
 
 3. **`src/app/layout.tsx`** — メタデータ設定:
-   - `title`: "アイスブレイクタイム！"
+   - `title`: "アイスブレイク！"
    - `description`: "オンライン会議を盛り上げるアイスブレイクツール"
    - 日本語フォント（Noto Sans JP 等）を Google Fonts から設定
 
@@ -163,24 +163,35 @@ npx create-next-app@latest . \
 import { Question } from "@/types";
 
 export const questions: Question[] = [
-  { id: 1, text: "もし動物に生まれ変われるなら何になりたい？その理由は？", category: "humor" },
-  { id: 2, text: "無人島に1つだけ持っていくとしたら何を選ぶ？", category: "light" },
+  {
+    id: 1,
+    text: "もし動物に生まれ変われるなら何になりたい？その理由は？",
+    category: "humor",
+  },
+  {
+    id: 2,
+    text: "無人島に1つだけ持っていくとしたら何を選ぶ？",
+    category: "light",
+  },
   // ... 50問以上
 ];
 ```
 
 **質問の方針**:
+
 - カテゴリ `"humor"`: 笑えるネタ・ちょっとシュールな質問（20問以上）
 - カテゴリ `"light"`: 気軽に答えられる質問（30問以上）
 - 1問あたり30〜60文字程度（画面に収まる長さ）
 - オンライン会議の参加者が答えやすいもの
 
 **質問例（humor）**:
+
 - 「もし給食メニューを1つだけ復活させるとしたら何？」
 - 「スーパーヒーローになれるとしたら、どんな能力が欲しい？」
 - 「時間を遡れるとしたら、何歳に戻ってどんなことをしたい？」
 
 **質問例（light）**:
+
 - 「最近ハマっているものは何ですか？」
 - 「今週末、晴れたら何をしたいですか？」
 - 「好きな食べ物を1つだけ教えてください！」
