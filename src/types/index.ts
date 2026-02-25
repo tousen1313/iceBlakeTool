@@ -1,9 +1,6 @@
-export type QuestionCategory = "humor" | "light";
-
 export interface Question {
   id: number;
   text: string;
-  category: QuestionCategory;
 }
 
 export interface IceBreakState {
