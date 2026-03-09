@@ -24,11 +24,7 @@ export default function Home() {
       </h1>
 
       {isStarted ? (
-        <div className="flex flex-col gap-4 w-[1000px]">
-          {currentQuestions.map((question, i) => (
-            <QuestionCard key={i} question={question} isAnimating={isAnimating} />
-          ))}
-        </div>
+        <QuestionCard questions={currentQuestions} isAnimating={isAnimating} />
       ) : (
         <div className="w-[1000px] min-h-[300px] bg-white/60 rounded-3xl shadow-xl p-8 md:p-12 border-4 border-dashed border-purple-200 flex items-center justify-center">
           <p className="text-gray-400 text-4xl font-medium">
@@ -43,20 +39,34 @@ export default function Home() {
           disabled={isAnimating}
           label={isStarted ? "他の質問へ" : "スタート"}
         />
-        <div className="flex gap-6">
-          {([1, 3] as const).map((n) => (
-            <label key={n} className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="radio"
-                name="count"
-                value={n}
-                checked={count === n}
-                onChange={() => setCount(n)}
-                className="accent-purple-500 w-4 h-4"
-              />
-              <span className="text-gray-500 font-medium">{n}問</span>
-            </label>
-          ))}
+        <div className="flex w-[290px] items-center gap-3">
+          <span className="text-base font-semibold text-purple-400 tracking-wide">
+            質問数
+          </span>
+          <div className="flex gap-4 bg-white/70 rounded-full p-1 shadow-inner border border-purple-100">
+            {([1, 3] as const).map((n) => (
+              <label key={n} className="cursor-pointer">
+                <input
+                  type="radio"
+                  name="count"
+                  value={n}
+                  checked={count === n}
+                  onChange={() => setCount(n)}
+                  className="sr-only"
+                />
+                <span
+                  className={`block px-6 py-2 rounded-full text-sm font-bold transition-all duration-200
+                    ${
+                      count === n
+                        ? "bg-gradient-to-r from-sky-300 to-blue-400 text-white shadow-md"
+                        : "text-gray-400 hover:text-gray-600"
+                    }`}
+                >
+                  {n}問
+                </span>
+              </label>
+            ))}
+          </div>
         </div>
       </div>
     </main>

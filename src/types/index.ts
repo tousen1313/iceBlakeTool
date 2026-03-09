@@ -14,7 +14,7 @@ export interface UseIceBreakReturn extends IceBreakState {
 }
 
 export interface QuestionCardProps {
-  question: Question;
+  questions: Question[];
   isAnimating?: boolean;
 }
 

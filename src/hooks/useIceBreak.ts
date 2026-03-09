@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { Question, UseIceBreakReturn } from "@/types";
 import { questions } from "@/data/questions";
 
@@ -51,6 +51,24 @@ export function useIceBreak(count: number = 1): UseIceBreakReturn {
       setIsAnimating(false);
     }, totalMs);
   }, [count]);
+
+  useEffect(() => {
+    if (!isStarted) return;
+    setCurrentQuestions((prev) => {
+      if (prev.length === count) return prev;
+      if (count > prev.length) {
+        const needed = count - prev.length;
+        if (queueRef.current.length < needed) {
+          queueRef.current = shuffle(questions);
+        }
+        const additional = queueRef.current.slice(0, needed);
+        queueRef.current = queueRef.current.slice(needed);
+        return [...prev, ...additional];
+      } else {
+        return prev.slice(0, count);
+      }
+    });
+  }, [count, isStarted]);
 
   return { currentQuestions, isStarted, isAnimating, nextQuestion };
 }
