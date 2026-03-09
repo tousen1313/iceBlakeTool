@@ -16,7 +16,16 @@
       "Bash(npm show:*)",
       "Bash(node -e:*)",
       "Bash(npx vercel:*)",
-      "Bash(npm test:*)"
+      "Bash(npm test:*)",
+      "Bash(git check-ignore:*)",
+      "Bash(git -C /Users/yamada/source/iceBlakeTool status -uall)",
+      "Bash(git status:*)",
+      "Bash(git -C /Users/yamada/source/iceBlakeTool ls-files:*)",
+      "Bash(git -C /Users/yamada/source/iceBlakeTool log --oneline -5)",
+      "Bash(git -C /Users/yamada/source/iceBlakeTool push origin main)",
+      "Bash(git -C /Users/yamada/source/iceBlakeTool diff src/data/questions.ts)",
+      "Bash(git -C /Users/yamada/source/iceBlakeTool add src/data/questions.ts)",
+      "Bash(git -C:*)"
     ]
   }
 }

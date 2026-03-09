@@ -4,7 +4,7 @@ export interface Question {
 }
 
 export interface IceBreakState {
-  currentQuestion: Question;
+  currentQuestions: Question[];
   isStarted: boolean;
   isAnimating: boolean;
 }

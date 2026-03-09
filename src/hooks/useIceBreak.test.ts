@@ -21,10 +21,10 @@ describe("useIceBreak", () => {
     expect(result.current.isAnimating).toBe(false);
   });
 
-  it("初期化時に currentQuestion は questions の中の1つである", () => {
+  it("初期化時に currentQuestions は questions の中の1つである", () => {
     const { result } = renderHook(() => useIceBreak());
     const ids = questions.map((q) => q.id);
-    expect(ids).toContain(result.current.currentQuestion.id);
+    expect(ids).toContain(result.current.currentQuestions[0].id);
   });
 
   it("nextQuestion を呼ぶと isStarted が true になる", () => {
@@ -54,7 +54,7 @@ describe("useIceBreak", () => {
     expect(result.current.isAnimating).toBe(false);
   });
 
-  it("アニメーション完了後の currentQuestion は questions の中の1つである", () => {
+  it("アニメーション完了後の currentQuestions は questions の中の1つである", () => {
     const { result } = renderHook(() => useIceBreak());
     act(() => {
       result.current.nextQuestion();
@@ -63,6 +63,6 @@ describe("useIceBreak", () => {
       jest.runAllTimers();
     });
     const ids = questions.map((q) => q.id);
-    expect(ids).toContain(result.current.currentQuestion.id);
+    expect(ids).toContain(result.current.currentQuestions[0].id);
   });
 });

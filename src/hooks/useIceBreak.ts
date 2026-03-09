@@ -17,20 +17,20 @@ function getRandomQuestion(): Question {
   return questions[Math.floor(Math.random() * questions.length)];
 }
 
-export function useIceBreak(): UseIceBreakReturn {
+export function useIceBreak(count: number = 1): UseIceBreakReturn {
   const [isStarted, setIsStarted] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
-  const [currentQuestion, setCurrentQuestion] = useState<Question>(() =>
-    getRandomQuestion()
+  const [currentQuestions, setCurrentQuestions] = useState<Question[]>(() =>
+    [getRandomQuestion()]
   );
   const queueRef = useRef<Question[]>(shuffle(questions));
 
   const nextQuestion = useCallback(() => {
-    if (queueRef.current.length === 0) {
+    if (queueRef.current.length < count) {
       queueRef.current = shuffle(questions);
     }
-    const finalQuestion = queueRef.current[0];
-    queueRef.current = queueRef.current.slice(1);
+    const finalQuestions = queueRef.current.slice(0, count);
+    queueRef.current = queueRef.current.slice(count);
 
     setIsStarted(true);
     setIsAnimating(true);
@@ -40,15 +40,17 @@ export function useIceBreak(): UseIceBreakReturn {
     const totalMs = 700;
 
     const timer = setInterval(() => {
-      setCurrentQuestion(getRandomQuestion());
+      setCurrentQuestions(
+        Array.from({ length: count }, () => getRandomQuestion())
+      );
     }, intervalMs);
 
     setTimeout(() => {
       clearInterval(timer);
-      setCurrentQuestion(finalQuestion);
+      setCurrentQuestions(finalQuestions);
       setIsAnimating(false);
     }, totalMs);
-  }, []);
+  }, [count]);
 
-  return { currentQuestion, isStarted, isAnimating, nextQuestion };
+  return { currentQuestions, isStarted, isAnimating, nextQuestion };
 }
