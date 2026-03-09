@@ -5,6 +5,7 @@ import { useIceBreak } from "@/hooks/useIceBreak";
 import { QuestionCard } from "@/components/QuestionCard";
 import { NextButton } from "@/components/NextButton";
 import { TodayFact } from "@/components/TodayFact";
+import { ReleaseNotes } from "@/components/ReleaseNotes";
 
 export default function Home() {
   const [count, setCount] = useState<1 | 3>(1);
@@ -19,6 +20,7 @@ export default function Home() {
       <div className="fixed top-4 right-4">
         <TodayFact />
       </div>
+      <ReleaseNotes />
       <h1 className="text-center text-7xl font-extrabold text-purple-600 mb-10 drop-shadow-sm">
         アイスブレイク
       </h1>
