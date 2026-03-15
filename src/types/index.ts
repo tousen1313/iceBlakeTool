@@ -3,13 +3,10 @@ export interface Question {
   text: string;
 }
 
-export interface IceBreakState {
+export interface UseIceBreakReturn {
   currentQuestions: Question[];
   isStarted: boolean;
   isAnimating: boolean;
-}
-
-export interface UseIceBreakReturn extends IceBreakState {
   nextQuestion: () => void;
 }
 
