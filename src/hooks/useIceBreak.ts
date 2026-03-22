@@ -3,15 +3,10 @@
 import { useState, useCallback, useRef } from "react";
 import { Question, UseIceBreakReturn } from "@/types";
 import { questions } from "@/data/questions";
+import { shuffle } from "@/lib/shuffle";
 
-function shuffle(array: Question[]): Question[] {
-  const arr = [...array];
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
-  return arr;
-}
+const ANIMATION_INTERVAL_MS = 50;
+const ANIMATION_TOTAL_MS = 700;
 
 export function useIceBreak(count: number): UseIceBreakReturn {
   const [isStarted, setIsStarted] = useState(false);
@@ -31,20 +26,17 @@ export function useIceBreak(count: number): UseIceBreakReturn {
     setIsStarted(true);
     setIsAnimating(true);
 
-    const intervalMs = 50;
-    const totalMs = 700;
-
     const timer = setInterval(() => {
       setCurrentQuestions(
         Array.from({ length: count }, () => questions[Math.floor(Math.random() * questions.length)])
       );
-    }, intervalMs);
+    }, ANIMATION_INTERVAL_MS);
 
     setTimeout(() => {
       clearInterval(timer);
       setCurrentQuestions(finalQuestions);
       setIsAnimating(false);
-    }, totalMs);
+    }, ANIMATION_TOTAL_MS);
   }, [count]);
 
   return { currentQuestions, isStarted, isAnimating, nextQuestion };

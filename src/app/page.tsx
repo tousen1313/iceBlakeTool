@@ -16,19 +16,19 @@ export default function Home() {
       className="relative min-h-screen bg-[#f0f8ff] flex flex-col items-center justify-center px-4 py-8"
       aria-label="アイスブレイクツール"
     >
-      <div className="fixed top-4 right-4">
+      <div className="fixed top-4 right-4 hidden md:block">
         <TodayFact />
       </div>
       <ReleaseNotes />
-      <h1 className="text-center text-7xl font-extrabold text-purple-600 mb-10 drop-shadow-sm">
+      <h1 className="text-center text-4xl md:text-7xl font-extrabold text-purple-600 mb-10 drop-shadow-sm">
         アイスブレイク
       </h1>
 
       {isStarted ? (
         <QuestionCard questions={currentQuestions} isAnimating={isAnimating} />
       ) : (
-        <div className="w-[1000px] min-h-[300px] bg-white/60 rounded-3xl shadow-xl p-8 md:p-12 border-4 border-dashed border-purple-200 flex flex-col items-center justify-center gap-2">
-          <p className="text-gray-400 text-4xl font-medium">
+        <div className="w-full max-w-[1000px] min-h-[300px] bg-white/60 rounded-3xl shadow-xl p-8 md:p-12 border-4 border-dashed border-purple-200 flex flex-col items-center justify-center gap-2">
+          <p className="text-gray-400 text-2xl md:text-4xl font-medium">
             スタートを押してください
           </p>
           <p className="text-gray-300 text-base">

@@ -12,7 +12,7 @@ export function ReleaseNotes() {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-4 right-4 w-12 h-12 flex items-center justify-center rounded-full bg-white/80 shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105 border border-purple-100"
+        className="fixed bottom-4 right-4 w-12 h-12 hidden md:flex items-center justify-center rounded-full bg-white/80 shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105 border border-purple-100"
         aria-label="リリースノートを表示"
       >
         <Image
