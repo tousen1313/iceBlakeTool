@@ -5,7 +5,6 @@ import { QuestionCard } from "@/components/QuestionCard";
 import { NextButton } from "@/components/NextButton";
 import { TodayFact } from "@/components/TodayFact";
 import { KanjiQuizModal } from "@/components/KanjiQuizModal";
-import { RequestModal } from "@/components/RequestModal";
 
 export default function Home() {
   const { currentQuestions, isStarted, isAnimating, nextQuestion } =
@@ -43,7 +42,6 @@ export default function Home() {
           disabled={isAnimating}
           label={isStarted ? "他の質問へ" : "スタート"}
         />
-        <RequestModal />
       </div>
     </main>
   );
