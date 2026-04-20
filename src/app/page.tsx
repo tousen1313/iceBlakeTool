@@ -4,7 +4,6 @@ import { useIceBreak } from "@/hooks/useIceBreak";
 import { QuestionCard } from "@/components/QuestionCard";
 import { NextButton } from "@/components/NextButton";
 import { TodayFact } from "@/components/TodayFact";
-import { ReleaseNotes } from "@/components/ReleaseNotes";
 import { RequestModal } from "@/components/RequestModal";
 
 export default function Home() {
@@ -19,7 +18,6 @@ export default function Home() {
       <div className="fixed top-4 right-4 hidden md:block">
         <TodayFact />
       </div>
-      <ReleaseNotes />
       <h1 className="text-center text-4xl md:text-7xl font-extrabold text-purple-600 mb-10 drop-shadow-sm">
         アイスブレイク
       </h1>
