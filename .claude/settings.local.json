@@ -25,7 +25,10 @@
       "Bash(git -C /Users/yamada/source/iceBlakeTool push origin main)",
       "Bash(git -C /Users/yamada/source/iceBlakeTool diff src/data/questions.ts)",
       "Bash(git -C /Users/yamada/source/iceBlakeTool add src/data/questions.ts)",
-      "Bash(git -C:*)"
+      "Bash(git -C:*)",
+      "Bash(git push:*)",
+      "Bash(ssh:*)",
+      "Bash(git remote set-url:*)"
     ]
   }
 }
