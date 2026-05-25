@@ -23,9 +23,9 @@ export function KanjiQuizModal() {
       <button
         onClick={handleOpen}
         className="fixed bottom-4 right-4 hidden md:flex items-center justify-center px-3 h-10 rounded-full bg-white/80 shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105 border border-purple-100"
-        aria-label="魚漢字クイズ"
+        aria-label="魚偏漢字クイズ"
       >
-        <span className="text-sm font-bold text-purple-500">魚漢字クイズ</span>
+        <span className="text-sm font-bold text-purple-500">魚偏漢字クイズ</span>
       </button>
 
       {isOpen && (
