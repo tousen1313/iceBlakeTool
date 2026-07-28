@@ -5,6 +5,7 @@ import { QuestionCard } from "@/components/QuestionCard";
 import { NextButton } from "@/components/NextButton";
 import { TodayFact } from "@/components/TodayFact";
 import { KanjiQuizModal } from "@/components/KanjiQuizModal";
+import { VegetableQuizModal } from "@/components/VegetableQuizModal";
 
 export default function Home() {
   const { currentQuestions, isStarted, isAnimating, nextQuestion } =
@@ -19,6 +20,8 @@ export default function Home() {
         <TodayFact />
       </div>
       <KanjiQuizModal />
+      <VegetableQuizModal />
+
       <h1 className="text-center text-4xl md:text-7xl font-extrabold text-purple-600 mb-10 drop-shadow-sm">
         アイスブレイク
       </h1>
