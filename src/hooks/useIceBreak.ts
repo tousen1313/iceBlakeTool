@@ -8,7 +8,7 @@ import { shuffle } from "@/lib/shuffle";
 const ANIMATION_INTERVAL_MS = 50;
 const ANIMATION_TOTAL_MS = 700;
 
-export function useIceBreak(count: number): UseIceBreakReturn {
+export function useIceBreak(count = 1): UseIceBreakReturn {
   const [isStarted, setIsStarted] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const [currentQuestions, setCurrentQuestions] = useState<Question[]>(() =>
@@ -28,7 +28,10 @@ export function useIceBreak(count: number): UseIceBreakReturn {
 
     const timer = setInterval(() => {
       setCurrentQuestions(
-        Array.from({ length: count }, () => questions[Math.floor(Math.random() * questions.length)])
+        Array.from(
+          { length: count },
+          () => questions[Math.floor(Math.random() * questions.length)]
+        )
       );
     }, ANIMATION_INTERVAL_MS);
 
