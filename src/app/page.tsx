@@ -4,7 +4,7 @@ import { useIceBreak } from "@/hooks/useIceBreak";
 import { QuestionCard } from "@/components/QuestionCard";
 import { NextButton } from "@/components/NextButton";
 import { TodayFact } from "@/components/TodayFact";
-import { KanjiQuizModal } from "@/components/KanjiQuizModal";
+import { PrefectureQuizModal } from "@/components/PrefectureQuizModal";
 import { VegetableQuizModal } from "@/components/VegetableQuizModal";
 
 export default function Home() {
@@ -19,7 +19,7 @@ export default function Home() {
       <div className="fixed top-4 right-4 hidden md:block">
         <TodayFact />
       </div>
-      <KanjiQuizModal />
+      <PrefectureQuizModal />
       <VegetableQuizModal />
 
       <h1 className="text-center text-4xl md:text-7xl font-extrabold text-purple-600 mb-10 drop-shadow-sm">
