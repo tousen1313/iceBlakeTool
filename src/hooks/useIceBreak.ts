@@ -8,7 +8,7 @@ import { shuffle } from "@/lib/shuffle";
 const ANIMATION_INTERVAL_MS = 50;
 const ANIMATION_TOTAL_MS = 700;
 
-export function useIceBreak(count: number): UseIceBreakReturn {
+export function useIceBreak(count = 1): UseIceBreakReturn {
   const [isStarted, setIsStarted] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const [currentQuestions, setCurrentQuestions] = useState<Question[]>(() =>
