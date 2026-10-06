@@ -35,7 +35,7 @@ function NumberedJapanMap({ target }: { target: string }) {
       .then((svgText) => {
         if (!active || !mapRef.current) return;
         const parsed = new DOMParser().parseFromString(svgText, "image/svg+xml");
-        const svg = document.importNode(parsed.documentElement, true) as SVGSVGElement;
+        const svg = document.importNode(parsed.documentElement, true) as unknown as SVGSVGElement;
         if (svg.querySelector("parsererror")) throw new Error("地図データが不正です");
         svg.setAttribute("class", "w-full h-auto max-h-[68vh]");
         svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
