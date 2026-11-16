@@ -11,6 +11,21 @@
   animation: drumroll 0.1s linear infinite;
 }
 
+@keyframes world-map-marker-pulse {
+  0%, 100% { opacity: 0.85; transform: scale(0.85); }
+  50% { opacity: 0.25; transform: scale(1.35); }
+}
+
+.world-map-marker-pulse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: world-map-marker-pulse 1s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .world-map-marker-pulse { animation: none; }
+}
+
 :root {
   --background: #f0f8ff;
   --foreground: #1a1a2e;
