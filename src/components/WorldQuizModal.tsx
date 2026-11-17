@@ -35,6 +35,12 @@ function countryLabel(country: CountryFeature) {
   return country.properties.name ?? "";
 }
 
+function countryFlag(country: CountryFeature) {
+  const code = country.properties["ISO3166-1-Alpha-2"];
+  if (!code || !/^[A-Z]{2}$/.test(code)) return null;
+  return String.fromCodePoint(...code.split("").map((letter) => 127397 + letter.charCodeAt(0)));
+}
+
 function polygonPath(rings: number[][][]) {
   return rings.map((ring) => ring.map(([longitude, latitude], index) => {
     const x = ((longitude + 180) / 360) * 1000;
@@ -151,6 +157,11 @@ export function WorldQuizModal() {
             <div className="flex flex-col items-center gap-5">
               {isAnswerShown && target ? (
                 <div className="text-center">
+                  {countryFlag(target) && (
+                    <p className="mb-3 text-7xl leading-none" role="img" aria-label={`${countryLabel(target)}の国旗`}>
+                      {countryFlag(target)}
+                    </p>
+                  )}
                   <p className="text-3xl font-bold text-blue-600">{countryLabel(target)}</p>
                   <p className="mt-2 text-sm text-gray-400">{target.properties.name}</p>
                   <button onClick={next} className="mt-5 rounded-full bg-blue-500 px-6 py-2 font-bold text-white shadow hover:bg-blue-600">次の問題</button>
