@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import { Modal } from "@/components/Modal";
 
 const worldMapUrl = "https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson";
@@ -76,6 +76,66 @@ export function WorldQuizModal() {
   const [loadError, setLoadError] = useState(false);
   const [target, setTarget] = useState<CountryFeature | null>(null);
   const [isAnswerShown, setIsAnswerShown] = useState(false);
+  const [zoom, setZoom] = useState(100);
+  const [pan, setPan] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const dragRef = useRef<{ pointerId: number; startX: number; startY: number; panX: number; panY: number } | null>(null);
+
+  const clampPan = (nextPan: { x: number; y: number }, zoomLevel: number) => {
+    const viewport = viewportRef.current;
+    if (!viewport) return nextPan;
+    const scale = zoomLevel / 100;
+    const maxX = (viewport.clientWidth * (scale - 1)) / 2;
+    const maxY = (viewport.clientHeight * (scale - 1)) / 2;
+    return {
+      x: Math.max(-maxX, Math.min(maxX, nextPan.x)),
+      y: Math.max(-maxY, Math.min(maxY, nextPan.y)),
+    };
+  };
+
+  const resetMapView = () => {
+    setZoom(100);
+    setPan({ x: 0, y: 0 });
+  };
+
+  const changeZoom = (amount: number) => {
+    const nextZoom = Math.max(100, Math.min(200, zoom + amount));
+    setZoom(nextZoom);
+    setPan((currentPan) => clampPan(currentPan, nextZoom));
+  };
+
+  const startDragging = (event: ReactPointerEvent<HTMLDivElement>) => {
+    if (zoom === 100 || (event.target as Element).closest("button")) return;
+    event.preventDefault();
+    event.currentTarget.setPointerCapture(event.pointerId);
+    dragRef.current = {
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      startY: event.clientY,
+      panX: pan.x,
+      panY: pan.y,
+    };
+    setIsDragging(true);
+  };
+
+  const moveMap = (event: ReactPointerEvent<HTMLDivElement>) => {
+    const drag = dragRef.current;
+    if (!drag || drag.pointerId !== event.pointerId) return;
+    setPan(clampPan({
+      x: drag.panX + event.clientX - drag.startX,
+      y: drag.panY + event.clientY - drag.startY,
+    }, zoom));
+  };
+
+  const stopDragging = (event: ReactPointerEvent<HTMLDivElement>) => {
+    if (!dragRef.current || dragRef.current.pointerId !== event.pointerId) return;
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
+    dragRef.current = null;
+    setIsDragging(false);
+  };
 
   useEffect(() => {
     let active = true;
@@ -110,12 +170,14 @@ export function WorldQuizModal() {
   const start = () => {
     if (quizCountries.length) setTarget(quizCountries[Math.floor(Math.random() * quizCountries.length)]);
     setIsAnswerShown(false);
+    resetMapView();
     setIsOpen(true);
   };
   const next = () => {
     const choices = quizCountries.filter((country) => country !== target);
     setTarget(choices[Math.floor(Math.random() * choices.length)] ?? quizCountries[0]);
     setIsAnswerShown(false);
+    resetMapView();
   };
   const targetMarker = target ? smallCountryMarker(target) : null;
 
@@ -136,21 +198,47 @@ export function WorldQuizModal() {
               ) : countries.length === 0 || quizCountries.length === 0 ? (
                 <div className="min-h-[300px] flex items-center justify-center rounded-2xl bg-sky-50 p-5 text-center text-sm text-gray-500">国の地図データが見つかりませんでした。ページを再読み込みしてください。</div>
               ) : (
-                <svg viewBox="0 0 1000 500" role="img" aria-label="世界地図" className="w-full rounded-2xl bg-sky-50 p-3">
-                  {countries.map((country) => {
-                    const polygons = country.geometry.type === "Polygon"
-                      ? [country.geometry.coordinates as number[][][]]
-                      : country.geometry.coordinates as number[][][][];
-                    const selected = country === target;
-                    return polygons.map((polygon, index) => <path key={`${country.properties["ISO3166-1-Alpha-3"]}-${index}`} d={polygonPath(polygon)} fill={selected ? "#f87171" : "#bfdbfe"} stroke="#fff" strokeWidth="0.7" className={selected ? "[filter:drop-shadow(0_0_5px_rgba(239,68,68,.85))]" : ""} />);
-                  })}
-                  {target && targetMarker && (
-                    <g aria-label={`${countryLabel(target)}の位置`}>
-                      <circle cx={targetMarker.x} cy={targetMarker.y} r="13" fill="none" stroke="#ef4444" strokeWidth="3" className="world-map-marker-pulse" />
-                      <circle cx={targetMarker.x} cy={targetMarker.y} r="8" fill="#ef4444" stroke="#ffffff" strokeWidth="2.5" />
-                    </g>
-                  )}
-                </svg>
+                <div
+                  ref={viewportRef}
+                  className={`relative aspect-[2/1] w-full overflow-hidden rounded-2xl bg-sky-50 ${zoom > 100 ? (isDragging ? "cursor-grabbing" : "cursor-grab") : ""}`}
+                  onPointerDown={startDragging}
+                  onPointerMove={moveMap}
+                  onPointerUp={stopDragging}
+                  onPointerCancel={stopDragging}
+                >
+                  <svg
+                    viewBox="0 0 1000 500"
+                    role="img"
+                    aria-label={`世界地図、拡大率${zoom}%`}
+                    className="absolute inset-0 h-full w-full p-3"
+                    style={{
+                      transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom / 100})`,
+                      transformOrigin: "center",
+                      transition: isDragging ? "none" : "transform 150ms ease-out",
+                      touchAction: "none",
+                    }}
+                  >
+                    {countries.map((country) => {
+                      const polygons = country.geometry.type === "Polygon"
+                        ? [country.geometry.coordinates as number[][][]]
+                        : country.geometry.coordinates as number[][][][];
+                      const selected = country === target;
+                      return polygons.map((polygon, index) => <path key={`${country.properties["ISO3166-1-Alpha-3"]}-${index}`} d={polygonPath(polygon)} fill={selected ? "#f87171" : "#bfdbfe"} stroke="#fff" strokeWidth="0.7" className={selected ? "[filter:drop-shadow(0_0_5px_rgba(239,68,68,.85))]" : ""} />);
+                    })}
+                    {target && targetMarker && (
+                      <g aria-label={`${countryLabel(target)}の位置`}>
+                        <circle cx={targetMarker.x} cy={targetMarker.y} r="13" fill="none" stroke="#ef4444" strokeWidth="3" className="world-map-marker-pulse" />
+                        <circle cx={targetMarker.x} cy={targetMarker.y} r="8" fill="#ef4444" stroke="#ffffff" strokeWidth="2.5" />
+                      </g>
+                    )}
+                  </svg>
+                  <div className="absolute right-3 top-3 z-10 flex items-center gap-1 rounded-full bg-white/95 p-1 shadow-md" aria-label="地図の拡大縮小">
+                    <button type="button" onClick={() => changeZoom(-25)} disabled={zoom <= 100} className="h-9 w-9 rounded-full text-xl font-bold text-blue-700 hover:bg-blue-50 disabled:text-gray-300" aria-label="地図を縮小">−</button>
+                    <span className="min-w-12 text-center text-sm font-semibold tabular-nums text-gray-700" aria-live="polite">{zoom}%</span>
+                    <button type="button" onClick={() => changeZoom(25)} disabled={zoom >= 200} className="h-9 w-9 rounded-full text-xl font-bold text-blue-700 hover:bg-blue-50 disabled:text-gray-300" aria-label="地図を拡大">+</button>
+                    <button type="button" onClick={resetMapView} disabled={zoom === 100} className="rounded-full px-2 py-2 text-xs font-semibold text-blue-700 hover:bg-blue-50 disabled:text-gray-300" aria-label="地図を100%に戻す">リセット</button>
+                  </div>
+                </div>
               )}
               <p className="mt-2 text-center text-xs text-gray-400">地図データ：Natural Earth / geo-countries</p>
             </div>
